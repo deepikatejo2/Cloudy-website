@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block styles %}
+  <style>
+    .services-heading {
+      text-align: center;
+      font-size: 25px;
+      font-weight: 600;
+    }
+    .services-container {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      margin: 50px 200px;
+    }
+    .service-cards {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      padding: 20px;
+      box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+    }
+    .price {
+      width: 200px;
+      margin-left: 20px;
+    }
+    .badge {
+      color: grey;
+      font-size: 10px;
+    }
+    .category {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: rgb(4, 77, 128);
+      margin-bottom: 10px;
+    }
+    .desc {
+      font-size: 14px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="services-heading">Services</div>
+  <div class="services-container">
+    {% for service in services %}
+      <div class="service-cards">
+        <div class="service-description">
+          {% if service.badge %}
+          <div class="badge">{{service.badge}}</div>
+          {% endif %}
+          <div class="category">{{service.category}}</div>
+          <div class="title">{{service.name}}</div>
+          <div class="desc">{{service.desc}}</div>
+        </div>
+        <div class="price">{{service.price}}</div>
+
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block styles %}
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center; 
+      padding: 90px;
+    }
+    .order-heading {
+      text-align: center;
+      font-size: 25px;
+      font-weight: 600;
+      display: block;
+    }
+    form {
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      width: 500px;
+    }
+    .form-control {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .name, .email, .selected_service, .instances, .deployment-region {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    input {
+      height: 20px;
+      border-color: gray;
+      border-style: solid;
+      border-width: 1px;
+      padding: 6px;
+    }
+    select {
+      height: 34px;
+      border-color: gray;
+      border-style: solid;
+      border-width: 1px;
+      padding: 6px;
+    }
+    .submit-btn {
+      border: none;
+      font-size: 14px;
+      padding: 12px 14px;
+      background-color: rgb(154, 197, 224);
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      margin-top: 18px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+
+  <h2 class="order-heading">Order</h2>
+  {% if success %}
+  <h3>Thank you, {{order_details.name}}.</h3>
+  <p>We have logged your request for <strong>{{order_details.selected_service}}</strong> <strong>{{order_details.instances}} instance(s)</strong> in <strong>{{order_details.region}}</strong>.</p>
+  <p>A confirmation email has been sent to <strong>{{order_details.email}}</strong></p>
+  {% endif %}
+
+  <form action="{{url_for('order')}}" method="POST">
+    <div class="form-control">
+      <label class="name" for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Mike Wazowski">
+    </div>
+    <div class="form-control">
+      <label class="email" for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="mike@gmail.com">
+    </div>
+
+    <div class="form-control">
+      <label class="selected_service" for="selected_service">Select Cloud Service</label>
+      <select id="selected_service" name="selected_service" required>
+        <option value="" disabled selecetd>Choose a service</option>
+        {% for service in services %}
+          <option value="{{service}}">{{service}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-control">
+      <label class="instances" for="instances">Instances</label>
+      <input type="number" id="instances" name="instances" value="1" min="1" max="20" required>
+    </div>
+    
+    <div class="form-control">
+      <label class="deployment-region" for="region">Deployment Region</label>
+      <select id="region" name="region" required>
+        <option value="US-East (N. Virginia)">US-East (N. Virginia)</option>
+        <option value="EU-Central (Frankfurt)">EU-Central (Frankfurt)</option>
+        <option value="AP-South (Mumbai)">AP-South (Mumbai)</option>
+      </select>
+    </div>
+
+    <button type="submit" class="submit-btn">Confirm & Deploy Service</button>
+  </form>
+{% endblock %}
